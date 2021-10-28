@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
 
 class ConversationViewController: UIViewController {
 
@@ -15,15 +17,15 @@ class ConversationViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let isLoggedIn = UserDefaults.standard.bool(forKey: "logged_in")
+        if !isLoggedIn {
+            // present login view controller
+            if let loginVC = self.storyboard?.instantiateViewController(identifier: "loginVC") as? LoginViewController {
+                self.navigationController?.pushViewController(loginVC, animated: false)
+            }
+            }
+        }
 
 }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,6 +17,18 @@
 		041425E32729707100B02EB3 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041425E22729707100B02EB3 /* RegisterViewController.swift */; };
 		041425E52729708200B02EB3 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041425E42729708200B02EB3 /* NewConversationViewController.swift */; };
 		041425E72729709500B02EB3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041425E62729709500B02EB3 /* ProfileViewController.swift */; };
+		041425EA27298B2000B02EB3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 041425E927298B2000B02EB3 /* GoogleService-Info.plist */; };
+		041425ED27298BFB00B02EB3 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 041425EC27298BFB00B02EB3 /* FirebaseDatabase */; };
+		041425EF27298BFB00B02EB3 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 041425EE27298BFB00B02EB3 /* FirebaseAnalytics */; };
+		041425F127298BFB00B02EB3 /* FirebaseDatabaseSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 041425F027298BFB00B02EB3 /* FirebaseDatabaseSwift-Beta */; };
+		041425F327298BFB00B02EB3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 041425F227298BFB00B02EB3 /* FirebaseAuth */; };
+		041425F627299E8500B02EB3 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041425F527299E8500B02EB3 /* CustomTextField.swift */; };
+		041425F82729C7B200B02EB3 /* UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041425F72729C7B200B02EB3 /* UIKit.swift */; };
+		041425FC2729F28800B02EB3 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041425FB2729F28800B02EB3 /* CustomButton.swift */; };
+		041425FF2729F42000B02EB3 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041425FE2729F42000B02EB3 /* UIColor.swift */; };
+		041426012729F4E000B02EB3 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041426002729F4E000B02EB3 /* UIFont.swift */; };
+		04142603272A04CA00B02EB3 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04142602272A04CA00B02EB3 /* CustomLabel.swift */; };
+		04142605272A9F6800B02EB3 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04142604272A9F6800B02EB3 /* CustomImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +44,14 @@
 		041425E22729707100B02EB3 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		041425E42729708200B02EB3 /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
 		041425E62729709500B02EB3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		041425E927298B2000B02EB3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		041425F527299E8500B02EB3 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		041425F72729C7B200B02EB3 /* UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKit.swift; sourceTree = "<group>"; };
+		041425FB2729F28800B02EB3 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		041425FE2729F42000B02EB3 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		041426002729F4E000B02EB3 /* UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
+		04142602272A04CA00B02EB3 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
+		04142604272A9F6800B02EB3 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +59,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				041425F127298BFB00B02EB3 /* FirebaseDatabaseSwift-Beta in Frameworks */,
+				041425EF27298BFB00B02EB3 /* FirebaseAnalytics in Frameworks */,
+				041425ED27298BFB00B02EB3 /* FirebaseDatabase in Frameworks */,
+				041425F327298BFB00B02EB3 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,11 +88,14 @@
 		041425C42729642F00B02EB3 /* MessengerApp */ = {
 			isa = PBXGroup;
 			children = (
+				041425FD2729F3F900B02EB3 /* core */,
+				041425F427299E6300B02EB3 /* Custom */,
 				041425D927296F2F00B02EB3 /* Resources */,
 				041425DA27296F3B00B02EB3 /* Models */,
 				041425DB27296F4E00B02EB3 /* Views */,
 				041425DC27296F5F00B02EB3 /* Controllers */,
 				041425D32729643100B02EB3 /* Info.plist */,
+				041425E927298B2000B02EB3 /* GoogleService-Info.plist */,
 			);
 			path = MessengerApp;
 			sourceTree = "<group>";
@@ -127,6 +154,27 @@
 			path = LogReg;
 			sourceTree = "<group>";
 		};
+		041425F427299E6300B02EB3 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				041425F527299E8500B02EB3 /* CustomTextField.swift */,
+				041425FB2729F28800B02EB3 /* CustomButton.swift */,
+				04142602272A04CA00B02EB3 /* CustomLabel.swift */,
+				04142604272A9F6800B02EB3 /* CustomImageView.swift */,
+			);
+			path = Custom;
+			sourceTree = "<group>";
+		};
+		041425FD2729F3F900B02EB3 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				041425F72729C7B200B02EB3 /* UIKit.swift */,
+				041425FE2729F42000B02EB3 /* UIColor.swift */,
+				041426002729F4E000B02EB3 /* UIFont.swift */,
+			);
+			path = core;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,6 +191,12 @@
 			dependencies = (
 			);
 			name = MessengerApp;
+			packageProductDependencies = (
+				041425EC27298BFB00B02EB3 /* FirebaseDatabase */,
+				041425EE27298BFB00B02EB3 /* FirebaseAnalytics */,
+				041425F027298BFB00B02EB3 /* FirebaseDatabaseSwift-Beta */,
+				041425F227298BFB00B02EB3 /* FirebaseAuth */,
+			);
 			productName = MessengerApp;
 			productReference = 041425C22729642F00B02EB3 /* MessengerApp.app */;
 			productType = "com.apple.product-type.application";
@@ -170,6 +224,9 @@
 				Base,
 			);
 			mainGroup = 041425B92729642F00B02EB3;
+			packageReferences = (
+				041425EB27298BFB00B02EB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 041425C32729642F00B02EB3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -185,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				041425D22729643100B02EB3 /* LaunchScreen.storyboard in Resources */,
+				041425EA27298B2000B02EB3 /* GoogleService-Info.plist in Resources */,
 				041425CF2729643100B02EB3 /* Assets.xcassets in Resources */,
 				041425CD2729642F00B02EB3 /* Main.storyboard in Resources */,
 			);
@@ -198,9 +256,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				041425E52729708200B02EB3 /* NewConversationViewController.swift in Sources */,
+				04142603272A04CA00B02EB3 /* CustomLabel.swift in Sources */,
 				041425C62729642F00B02EB3 /* AppDelegate.swift in Sources */,
+				04142605272A9F6800B02EB3 /* CustomImageView.swift in Sources */,
+				041425F627299E8500B02EB3 /* CustomTextField.swift in Sources */,
 				041425DF2729704800B02EB3 /* ConversationViewController.swift in Sources */,
+				041425F82729C7B200B02EB3 /* UIKit.swift in Sources */,
 				041425E32729707100B02EB3 /* RegisterViewController.swift in Sources */,
+				041425FC2729F28800B02EB3 /* CustomButton.swift in Sources */,
+				041425FF2729F42000B02EB3 /* UIColor.swift in Sources */,
+				041426012729F4E000B02EB3 /* UIFont.swift in Sources */,
 				041425E12729705D00B02EB3 /* LoginViewController.swift in Sources */,
 				041425E72729709500B02EB3 /* ProfileViewController.swift in Sources */,
 				041425C82729642F00B02EB3 /* SceneDelegate.swift in Sources */,
@@ -403,6 +468,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		041425EB27298BFB00B02EB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.8.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		041425EC27298BFB00B02EB3 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 041425EB27298BFB00B02EB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		041425EE27298BFB00B02EB3 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 041425EB27298BFB00B02EB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		041425F027298BFB00B02EB3 /* FirebaseDatabaseSwift-Beta */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 041425EB27298BFB00B02EB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseDatabaseSwift-Beta";
+		};
+		041425F227298BFB00B02EB3 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 041425EB27298BFB00B02EB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 041425BA2729642F00B02EB3 /* Project object */;
 }
