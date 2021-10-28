@@ -101,6 +101,15 @@
         }
       },
       {
+        "package": "RSKImageCropper",
+        "repositoryURL": "https://github.com/ruslanskorb/RSKImageCropper.git",
+        "state": {
+          "branch": null,
+          "revision": "a21b28b90c08d3be9f392b36e872514cb74888a0",
+          "version": "3.0.2"
+        }
+      },
+      {
         "package": "SwiftProtobuf",
         "repositoryURL": "https://github.com/apple/swift-protobuf.git",
         "state": {

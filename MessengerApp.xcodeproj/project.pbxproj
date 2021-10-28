@@ -29,6 +29,7 @@
 		041426012729F4E000B02EB3 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041426002729F4E000B02EB3 /* UIFont.swift */; };
 		04142603272A04CA00B02EB3 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04142602272A04CA00B02EB3 /* CustomLabel.swift */; };
 		04142605272A9F6800B02EB3 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04142604272A9F6800B02EB3 /* CustomImageView.swift */; };
+		04142628272B283B00B02EB3 /* RSKImageCropper in Frameworks */ = {isa = PBXBuildFile; productRef = 04142627272B283B00B02EB3 /* RSKImageCropper */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 			files = (
 				041425F127298BFB00B02EB3 /* FirebaseDatabaseSwift-Beta in Frameworks */,
 				041425EF27298BFB00B02EB3 /* FirebaseAnalytics in Frameworks */,
+				04142628272B283B00B02EB3 /* RSKImageCropper in Frameworks */,
 				041425ED27298BFB00B02EB3 /* FirebaseDatabase in Frameworks */,
 				041425F327298BFB00B02EB3 /* FirebaseAuth in Frameworks */,
 			);
@@ -196,6 +198,7 @@
 				041425EE27298BFB00B02EB3 /* FirebaseAnalytics */,
 				041425F027298BFB00B02EB3 /* FirebaseDatabaseSwift-Beta */,
 				041425F227298BFB00B02EB3 /* FirebaseAuth */,
+				04142627272B283B00B02EB3 /* RSKImageCropper */,
 			);
 			productName = MessengerApp;
 			productReference = 041425C22729642F00B02EB3 /* MessengerApp.app */;
@@ -226,6 +229,7 @@
 			mainGroup = 041425B92729642F00B02EB3;
 			packageReferences = (
 				041425EB27298BFB00B02EB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				04142626272B283A00B02EB3 /* XCRemoteSwiftPackageReference "RSKImageCropper" */,
 			);
 			productRefGroup = 041425C32729642F00B02EB3 /* Products */;
 			projectDirPath = "";
@@ -478,6 +482,14 @@
 				minimumVersion = 8.8.1;
 			};
 		};
+		04142626272B283A00B02EB3 /* XCRemoteSwiftPackageReference "RSKImageCropper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ruslanskorb/RSKImageCropper.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -500,6 +512,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 041425EB27298BFB00B02EB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		04142627272B283B00B02EB3 /* RSKImageCropper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04142626272B283A00B02EB3 /* XCRemoteSwiftPackageReference "RSKImageCropper" */;
+			productName = RSKImageCropper;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

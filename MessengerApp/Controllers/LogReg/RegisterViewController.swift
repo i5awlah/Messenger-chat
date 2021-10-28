@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RSKImageCropper
 
 class RegisterViewController: UIViewController {
     
@@ -63,6 +64,9 @@ class RegisterViewController: UIViewController {
             v.heightAnchor.constraint(equalToConstant: 200),
             v.widthAnchor.constraint(equalToConstant: 200)
         ]}
+        
+        profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped)))
+        profileImageView.isUserInteractionEnabled = true
         
         // Email Container
         view.add(subview: emailContainerView){ (v, p) in [
@@ -140,5 +144,95 @@ class RegisterViewController: UIViewController {
         dismiss(animated: false, completion: nil)
     }
     
+    @objc func imageTapped() {
+        print("UIImageView tapped")
+        presentPhotoActionSheet()
+    }
+    
 
+}
+
+extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    // get results of user taking picture or selecting from camera roll
+    func presentPhotoActionSheet(){
+        let actionSheet = UIAlertController(title: "Profile Picture", message: "How would you like to select a picture?", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { [weak self] _ in
+            self?.presentCamera()
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { [weak self] _ in
+            self?.presentPhotoPicker()
+        }))
+        if profileImageView.image != UIImage(named: "profileImage") {
+            actionSheet.addAction(UIAlertAction(title: "Delete Photo", style: .default, handler: { [weak self] _ in
+                self?.deletePhoto()
+            }))
+        }
+        
+        
+        present(actionSheet, animated: true)
+    }
+    func presentCamera() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        vc.delegate = self
+        vc.allowsEditing = true
+        present(vc, animated: true)
+    }
+    func presentPhotoPicker() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .photoLibrary
+        vc.delegate = self
+        //vc.allowsEditing = true
+        present(vc, animated: true)
+    }
+    func deletePhoto() {
+        profileImageView.image = UIImage(named: "profileImage")
+    }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            return
+        }
+        
+        let imageCropVC : RSKImageCropViewController!
+        imageCropVC = RSKImageCropViewController(image: selectedImage, cropMode: RSKImageCropMode.circle)
+        imageCropVC.moveAndScaleLabel.text = "Move And Scale"
+        imageCropVC.cancelButton.setTitle("Cancel", for: .normal)
+        imageCropVC.chooseButton.setTitle("Choose", for: .normal)
+        imageCropVC.delegate = self
+        picker.pushViewController(imageCropVC, animated: true)
+        
+        //self.profileImageView.image = selectedImage
+        
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        print("cccccc")
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+
+extension RegisterViewController: RSKImageCropViewControllerDelegate {
+    func imageCropViewControllerDidCancelCrop(_ controller: RSKImageCropViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imageCropViewController(_ controller: RSKImageCropViewController, didCropImage croppedImage: UIImage, usingCropRect cropRect: CGRect, rotationAngle: CGFloat) {
+        
+        if controller.cropMode == .circle {
+            UIGraphicsBeginImageContext(croppedImage.size)
+            let layerView = UIImageView(image: croppedImage)
+            layerView.frame.size = croppedImage.size
+            layerView.layer.cornerRadius = layerView.frame.size.width * 0.5
+            layerView.clipsToBounds = true
+            let context = UIGraphicsGetCurrentContext()!
+            layerView.layer.render(in: context)
+            let capturedImage = UIGraphicsGetImageFromCurrentImageContext()!
+            UIGraphicsEndImageContext()
+            let pngData = capturedImage.pngData()!
+            self.profileImageView.image = UIImage(data: pngData)!
+        }
+        dismiss(animated: true, completion: nil)
+    }
 }
