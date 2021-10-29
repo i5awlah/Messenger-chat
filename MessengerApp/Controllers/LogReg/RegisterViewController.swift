@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import RSKImageCropper
 
 class RegisterViewController: UIViewController {
@@ -131,13 +132,28 @@ class RegisterViewController: UIViewController {
     }
     
     @objc func registerButtonPressed() {
-        if let email = emailTextField.text, email.count > 0,
-           let password = passwordTextField.text, password.count > 0,
-           let firstName = firstNameTextField.text, firstName.count > 0,
-           let lastName = lastNameTextField.text, lastName.count > 0 {
-            print ("Email: \(email) and Password: \(password)")
-            print ("First Name: \(firstName) and Last Name: \(lastName)")
+        guard let email = emailTextField.text else {
+            return
         }
+        guard let password = emailTextField.text else {
+            return
+        }
+        FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password, completion: { authResult , error  in
+            guard let result = authResult, error == nil else {
+                print("Error creating user")
+                return
+            }
+            let user = result.user
+            print("Created User: \(user)")
+        })
+        
+//        if let email = emailTextField.text, email.count > 0,
+//           let password = passwordTextField.text, password.count > 0,
+//           let firstName = firstNameTextField.text, firstName.count > 0,
+//           let lastName = lastNameTextField.text, lastName.count > 0 {
+//            print ("Email: \(email) and Password: \(password)")
+//            print ("First Name: \(firstName) and Last Name: \(lastName)")
+//        }
     }
     
     @objc func signinButtonPressed() {

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginViewController: UIViewController {
     
@@ -77,6 +78,16 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        print("hello")
+        if Firebase.Auth.auth().currentUser != nil {
+            if let email = Firebase.Auth.auth().currentUser?.email {
+                print("there is a user \(email)")
+            }
+            
+//            let vc = ConversationViewController()
+//            vc.modalPresentationStyle = .fullScreen
+//            present(vc, animated: false)
+        }
     }
     
     func setupUI() {
@@ -177,11 +188,21 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func loginButtonPressed() {
-        print("loginButtonPressed")
-        if let email = emailTextField.text, email.count > 0,
-           let password = passwordTextField.text, password.count > 0 {
-            print ("Email: \(email) and Password: \(password)")
+        guard let email = emailTextField.text else {
+            return
         }
+        guard let password = emailTextField.text else {
+            return
+        }
+        FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: { authResult, error in
+            guard let result = authResult, error == nil else {
+                print("Failed to log in user with email \(email)")
+                return
+            }
+            let user = result.user
+            print("logged in user: \(user)")
+            // go to profile
+        })
     }
     @objc private func signupButtonPressed() {
         print("signupButtonPressed")
@@ -197,5 +218,4 @@ class LoginViewController: UIViewController {
     @objc private func googleButtonPressed() {
         print("googleButtonPressed")
     }
-
 }
