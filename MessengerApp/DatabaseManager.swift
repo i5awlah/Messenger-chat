@@ -21,14 +21,7 @@ final class DatabaseManger {
     
     
     
-    public func test() {
-        // NoSQL - JSON (keys and objects)
-        // child refers to a key that we want to write data to
-        // in JSON, we can point it to anything that JSON supports - String, another object
-        // for users, we might want a key that is the user's email address
-        
-        database.child("foo").setValue(["something":true])
-    }
+
 }
 // MARK: - account management
 extension DatabaseManger {

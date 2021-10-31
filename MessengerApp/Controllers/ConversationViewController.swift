@@ -17,7 +17,6 @@ class ConversationViewController: UIViewController {
         title = "Chats"
         print("Conversation viewDidLoad")
         
-        DatabaseManger.shared.test() // call test!
         validateAuth()
         // Do any additional setup after loading the view.
     }

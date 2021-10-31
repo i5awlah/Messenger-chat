@@ -114,6 +114,8 @@ class RegisterViewController: UIViewController {
     }
     
     func createNewUser() {
+        guard let firstName = firstNameTextField.text else {return}
+        guard let lastName = lastNameTextField.text else {return}
             if emailTextField.text != nil || emailTextField.text != "" {
                 Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { (authResult: AuthDataResult?, error: Error?) in
                     if let error = error {
@@ -121,6 +123,8 @@ class RegisterViewController: UIViewController {
                         //print(error.localizedDescription)
                     } else {
                         print("user succesfully created account: \(self.emailTextField.text!)")
+                        let newUser = ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: self.emailTextField.text!)
+                        DatabaseManger.shared.insertUser(with: newUser)
                         self.openConversationVC()
                     }
                 }
