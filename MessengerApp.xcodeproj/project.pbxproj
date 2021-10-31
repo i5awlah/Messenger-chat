@@ -105,7 +105,6 @@
 				041425D32729643100B02EB3 /* Info.plist */,
 				041425E927298B2000B02EB3 /* GoogleService-Info.plist */,
 				04142629272C347F00B02EB3 /* DatabaseManager.swift */,
-				0414262E272E7F0200B02EB3 /* tabBarVC.swift */,
 			);
 			path = MessengerApp;
 			sourceTree = "<group>";
@@ -142,6 +141,7 @@
 				041425E8272970AC00B02EB3 /* LogReg */,
 				041425E42729708200B02EB3 /* NewConversationViewController.swift */,
 				041425E62729709500B02EB3 /* ProfileViewController.swift */,
+				0414262E272E7F0200B02EB3 /* tabBarVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
