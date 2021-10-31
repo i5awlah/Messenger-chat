@@ -59,6 +59,9 @@ class CustomTextField: UITextField {
 class Helper {
     static func createTextFieldWithAnchor(tf:UITextField, iv:UIImageView, view:UIView) {
         
+        NSLayoutConstraint.activate([
+            view.heightAnchor.constraint(equalToConstant: 55)
+        ])
         view.add(subview: iv){ (v, p) in [
             v.centerYAnchor.constraint(equalTo: p.centerYAnchor),
             v.leadingAnchor.constraint(equalTo: p.leadingAnchor),

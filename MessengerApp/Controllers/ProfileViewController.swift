@@ -6,24 +6,39 @@
 //
 
 import UIKit
+import Firebase
 
 class ProfileViewController: UIViewController {
-
+    
+    private lazy var logoutButton: CustomButton = {
+        let btn = CustomButton(title: "Log out")
+        btn.addTarget(self, action: #selector(logoutButtonPressed), for: .touchUpInside)
+        return btn
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .orange
+        title = "Profile"
+        
+        view.add(subview: logoutButton) { (v, p) in [
+            v.topAnchor.constraint(lessThanOrEqualTo: p.safeAreaLayoutGuide.topAnchor, constant: 50),
+            v.centerXAnchor.constraint(equalTo: p.centerXAnchor),
+            v.heightAnchor.constraint(equalToConstant: 200),
+            v.widthAnchor.constraint(equalToConstant: 300)
+        ]}
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @objc func logoutButtonPressed() {
+        print("logoutButtonPressed")
+        do {
+            try FirebaseAuth.Auth.auth().signOut()
+            let vc = LoginViewController()
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: false)
+        }
+        catch {
+        }
     }
-    */
 
 }
