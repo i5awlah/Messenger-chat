@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import FacebookLogin
 
 class LoginViewController: UIViewController {
     
@@ -52,6 +53,7 @@ class LoginViewController: UIViewController {
         btn.addTarget(self, action: #selector(facebookButtonPressed), for: .touchUpInside)
         return btn
     }()
+    let loginFacebookButton = FBLoginButton()
     
     private lazy var googleButton: UIButton = {
         let btn = UIButton()
@@ -65,7 +67,15 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        print("hello")
+        print("login viewDidLoad")
+        
+        loginFacebookButton.permissions = ["public_profile", "email"]
+        loginFacebookButton.delegate = self
+        
+        
+        
+          
+        
         if Firebase.Auth.auth().currentUser != nil {
             if let email = Firebase.Auth.auth().currentUser?.email {
                 print("there is a user \(email)")
@@ -160,6 +170,7 @@ class LoginViewController: UIViewController {
     }
     @objc private func facebookButtonPressed() {
         print("facebookButtonPressed")
+        loginFacebookButton.sendActions(for: .touchUpInside)
     }
     @objc private func googleButtonPressed() {
         print("googleButtonPressed")
@@ -193,4 +204,59 @@ class LoginViewController: UIViewController {
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: false)
     }
+}
+
+extension LoginViewController : LoginButtonDelegate {
+    
+    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
+        if result?.isCancelled ?? false {
+                    print("Cancelled")
+                } else if error != nil {
+                    print("ERROR: Trying to get login results")
+                } else {
+                    print("Logged in")
+                    
+                    let credential = FacebookAuthProvider
+                      .credential(withAccessToken: AccessToken.current!.tokenString)
+                    
+                    Auth.auth().signIn(with: credential) { authResult, error in
+                        if let error = error {
+                            print("%% \(error)")
+                          return
+                        }
+                        print("%% SUCCESS!")
+                        // User is signed in
+                        
+                        //DatabaseManger.shared.userExists
+                        
+                        
+                        self.openConversationVC()
+                        DatabaseManger.shared.getUserProfile(token: result?.token, userId: result?.token?.userID) { userInfo in
+                            print("INFO: \(userInfo.emailAddress)")
+                            print("INFO: \(userInfo.firstName)")
+                            print("INFO: \(userInfo.lastName)")
+                            DatabaseManger.shared.userExists(with: userInfo.emailAddress) { boolResult in
+                                if (boolResult) {
+                                    print("userExists")
+                                }
+                                else {
+                                    print("userNotExists")
+                                    DatabaseManger.shared.insertUser(with: userInfo)
+                                }
+                            }
+                        }
+                    }
+
+                    
+                }
+
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
+    }
+    
+
+    
+
+    
 }

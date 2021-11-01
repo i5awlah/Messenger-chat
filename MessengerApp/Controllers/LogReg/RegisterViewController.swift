@@ -25,11 +25,11 @@ class RegisterViewController: UIViewController {
     private lazy var emailTextField = CustomTextField(tfType: .email)
     private lazy var emailContainerView = UIView()
     
-    private lazy var firstNameImageView = CustomImageView(ivType: .email)
+    private lazy var firstNameImageView = CustomImageView(ivType: .name)
     private lazy var firstNameTextField = CustomTextField(tfType: .firstName)
     private lazy var firstNameContainerView = UIView()
     
-    private lazy var lastNameImageView = CustomImageView(ivType: .email)
+    private lazy var lastNameImageView = CustomImageView(ivType: .name)
     private lazy var lastNameTextField = CustomTextField(tfType: .lastName)
     private lazy var lastNameContainerView = UIView()
     

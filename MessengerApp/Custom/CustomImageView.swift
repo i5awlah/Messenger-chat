@@ -10,6 +10,7 @@ import UIKit
 enum ImageViewType {
     case email
     case password
+    case name
 }
 
 class CustomImageView: UIImageView {
@@ -17,10 +18,12 @@ class CustomImageView: UIImageView {
         super.init(frame: .zero)
         
         switch ivType {
-            case .email:
-                image = UIImage(systemName: "mail")
-            case .password:
-                image = UIImage(systemName: "lock")
+        case .email:
+            image = UIImage(systemName: "mail")
+        case .password:
+            image = UIImage(systemName: "lock")
+        case .name:
+            image = UIImage(systemName: "person")
         }
         tintColor = .white
     }

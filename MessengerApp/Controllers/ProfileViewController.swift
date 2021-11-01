@@ -7,38 +7,104 @@
 
 import UIKit
 import Firebase
+import FacebookLogin
 
 class ProfileViewController: UIViewController {
     
-    private lazy var logoutButton: CustomButton = {
-        let btn = CustomButton(title: "Log out")
-        btn.addTarget(self, action: #selector(logoutButtonPressed), for: .touchUpInside)
-        return btn
+    var data = ["Log Out"]
+    private let cellId = "profileCell"
+    
+    lazy var tableView: UITableView = {
+        let tv = UITableView(frame: .zero, style: .plain)
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.delegate = self
+        tv.dataSource = self
+        tv.register(UITableViewCell.self, forCellReuseIdentifier: self.cellId)
+        return tv
     }()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+        getUserData()
+    }
+    
+    func setupUI() {
         view.backgroundColor = .orange
         title = "Profile"
         
-        view.add(subview: logoutButton) { (v, p) in [
-            v.topAnchor.constraint(lessThanOrEqualTo: p.safeAreaLayoutGuide.topAnchor, constant: 50),
-            v.centerXAnchor.constraint(equalTo: p.centerXAnchor),
-            v.heightAnchor.constraint(equalToConstant: 200),
-            v.widthAnchor.constraint(equalToConstant: 300)
-        ]}
+        view.addSubview(tableView)
+        
+        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
     }
     
-    @objc func logoutButtonPressed() {
-        print("logoutButtonPressed")
-        do {
-            try FirebaseAuth.Auth.auth().signOut()
-            let vc = LoginViewController()
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: false)
-        }
-        catch {
+    func getUserData() {
+        DatabaseManger.shared.getUser() { userInfo in
+            print("Welcome: \(userInfo.firstName)")
+            self.data.append(userInfo.firstName)
+            self.tableView.reloadData()
         }
     }
+    
+    func logout() {
+        
+        // logout the user
+        // show alert
+        let actionSheet = UIAlertController(title: "Are you sure to Log Out?", message: "", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { [weak self] _ in
+            // action that is fired once selected
+            guard let strongSelf = self else {
+                return
+            }
+            print("logout ...")
+            do {
+                if DatabaseManger.shared.isLoggedIn() {
+                    // Show the ViewController with the logged in user
+                    print("**PP** login with facebook")
+                    LoginManager().logOut()
+                }
+                
+                
+                try FirebaseAuth.Auth.auth().signOut()
+                let vc = LoginViewController()
+                vc.modalPresentationStyle = .fullScreen
+                self?.present(vc, animated: false)
+            }
+            catch {
+                print("failed to logout")
+            }
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(actionSheet, animated: true)
 
+    }
+
+}
+
+extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
+        cell.textLabel?.text = data[indexPath.row]
+        cell.textLabel?.textAlignment = .center
+        cell.textLabel?.textColor = .red
+        return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true) // unhighlight the cell
+        
+        if indexPath.row == 0 {
+            logout()
+        }
+        
+    }
+    
 }
