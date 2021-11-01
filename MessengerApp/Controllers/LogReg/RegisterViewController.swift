@@ -125,6 +125,18 @@ class RegisterViewController: UIViewController {
                         print("user succesfully created account: \(self.emailTextField.text!)")
                         let newUser = ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: self.emailTextField.text!)
                         DatabaseManger.shared.insertUser(with: newUser)
+                        
+                        let userImage = self.profileImageView.image?.pngData()
+                        let fileName = "\(newUser.safeEmail)_profilepicture.png"
+                        StorageManager.shared.uploadProfilePicture(with: userImage!, fileName: fileName) { result in
+                            switch result {
+                                case .success(let url):
+                                    print("This is: \(url)")
+                                case .failure(let error):
+                                    print(error.localizedDescription)
+                                }
+                        }
+                        //profileImageView.image
                         self.openConversationVC()
                     }
                 }

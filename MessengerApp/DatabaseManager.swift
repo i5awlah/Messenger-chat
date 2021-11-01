@@ -90,7 +90,7 @@ extension DatabaseManger {
         graphRequest.start { _, result, error in
             if error == nil {
                 let data: [String: AnyObject] = result as! [String: AnyObject]
-                var facebookUser = ChatAppUser(firstName: "", lastName: "", emailAddress: "")
+                var facebookUser = ChatAppUser(firstName: "", lastName: "", emailAddress: "",profilePictureUrl: "")
 
                 // Facebook First Name
                 if let facebookFirstName = data["first_name"] as? String {
@@ -101,8 +101,22 @@ extension DatabaseManger {
                     facebookUser.lastName = facebookLastName
                 }
                 // Facebook Profile Pic URL
-                let facebookProfilePicURL = "https://graph.facebook.com/\(userId ?? "")/picture?type=large"
-                print("Facebook Profile Pic URL: \(facebookProfilePicURL)")
+
+                
+                if let pictureData: [String : Any] = data["picture"] as? [String : Any]
+                 {
+                    print("###", pictureData)
+                     if let data : [String: Any] = pictureData["data"] as? [String: Any]
+                      {
+                        facebookUser.profilePictureUrl = data["url"] as! String
+                        print("^^^^^^^^^^^^^^^^^^^")
+                       }
+                 }
+                
+              
+                //let facebookProfilePicURL = "https://graph.facebook.com/\(userId ?? "")/picture?type=large"
+                //print("Facebook Profile Pic URL: \(facebookProfilePicURL)")
+                //facebookUser.profilePictureUrl = facebookProfilePicURL
                 
                 // Facebook Email
                 if let facebookEmail = data["email"] as? String {
@@ -120,7 +134,7 @@ struct ChatAppUser {
     var firstName: String
     var lastName: String
     var emailAddress: String
-    //let profilePictureUrl: String
+    var profilePictureUrl: String?
     
     // create a computed property safe email
     

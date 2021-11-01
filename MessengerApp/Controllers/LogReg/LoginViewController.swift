@@ -8,8 +8,18 @@
 import UIKit
 import Firebase
 import FacebookLogin
+import Kingfisher
 
 class LoginViewController: UIViewController {
+    
+    private lazy var profileImageView: UIImageView = {
+        let iv = UIImageView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+        iv.image = UIImage(named: "profileImage")
+        iv.layer.borderColor = UIColor.black.cgColor
+        iv.layer.borderWidth = 3
+        iv.roundedImage()
+        return iv
+    }()
     
     private lazy var logoImageView: UIImageView = {
         let iv = UIImageView()
@@ -242,6 +252,33 @@ extension LoginViewController : LoginButtonDelegate {
                                 else {
                                     print("userNotExists")
                                     DatabaseManger.shared.insertUser(with: userInfo)
+                                    // take image from faceBook
+                                    let facebookEmail = userInfo.emailAddress
+                                    var safeEmail = facebookEmail.replacingOccurrences(of: ".", with: "-")
+                                    safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-").lowercased()
+                                    
+   
+                                    let url = URL(string: userInfo.profilePictureUrl!)
+                                    print("@@@@\(userInfo.profilePictureUrl!)")
+
+                                        let data = try? Data(contentsOf: url!)
+
+                                            self.profileImageView.image = UIImage(data: data!)
+                                            let userImage = self.profileImageView.image!.pngData()
+                                            let fileName = "\(safeEmail)_profilepicture.png"
+                                            StorageManager.shared.uploadProfilePicture(with: userImage!, fileName: fileName) { result in
+                                                switch result {
+                                                    case .success(let url):
+                                                        print("This is: \(url)")
+                                                    case .failure(let error):
+                                                        print(error.localizedDescription)
+                                                    }
+                                            }
+                                        
+                                    
+
+                                    
+
                                 }
                             }
                         }
