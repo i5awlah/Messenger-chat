@@ -251,7 +251,9 @@ extension LoginViewController : LoginButtonDelegate {
                                 }
                                 else {
                                     print("userNotExists")
-                                    DatabaseManger.shared.insertUser(with: userInfo)
+                                    DatabaseManger.shared.insertUser(with: userInfo) { boolreselt in
+                                        print(boolreselt)
+                                    }
                                     // take image from faceBook
                                     let facebookEmail = userInfo.emailAddress
                                     var safeEmail = facebookEmail.replacingOccurrences(of: ".", with: "-")

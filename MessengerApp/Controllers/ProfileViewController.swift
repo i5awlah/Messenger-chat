@@ -10,6 +10,7 @@ import Firebase
 import FacebookLogin
 import Kingfisher
 
+
 struct section {
     let title: String
     let options: [settingsOption]
@@ -49,7 +50,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         configureModals()
-        getUserData()
+        showUserData()
     }
     
     func setupUI() {
@@ -111,26 +112,21 @@ class ProfileViewController: UIViewController {
         ]))
     }
     
-    func getUserData() {
-        DatabaseManger.shared.getUser() { userInfo in
-            print("Welcome: \(userInfo.firstName)")
-            self.fullNameLabel.text = "\(userInfo.firstName) \(userInfo.lastName)"
-            self.emailLabel.text = userInfo.emailAddress
-            self.tableView.reloadData()
-            
-            let userPath = "images/" + "\(userInfo.safeEmail)_profilepicture.png"
-            StorageManager.shared.downloadURL(for: userPath) { result in
-                switch result {
-                    case .success(let url):
-                        print("This is: \(url)")
-                        self.profileImageView.kf.setImage(with: url)
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                    }
-            }
-            
-        }
+    func showUserData() {
         
+        self.fullNameLabel.text = UserDefaults.standard.value(forKey: "name") as? String
+        self.emailLabel.text = UserDefaults.standard.value(forKey: "email") as? String
+        
+        let userPath = UserDefaults.standard.value(forKey: "image") as! String
+        StorageManager.shared.downloadURL(for: userPath) { result in
+            switch result {
+            case .success(let url):
+                print("This is: \(url)")
+                self.profileImageView.kf.setImage(with: url)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     func changeMode() {

@@ -124,7 +124,9 @@ class RegisterViewController: UIViewController {
                     } else {
                         print("user succesfully created account: \(self.emailTextField.text!)")
                         let newUser = ChatAppUser(firstName: firstName, lastName: lastName, emailAddress: self.emailTextField.text!)
-                        DatabaseManger.shared.insertUser(with: newUser)
+                        DatabaseManger.shared.insertUser(with: newUser) { boolreselt in
+                            print(boolreselt)
+                        }
                         
                         let userImage = self.profileImageView.image?.pngData()
                         let fileName = "\(newUser.safeEmail)_profilepicture.png"
