@@ -173,7 +173,10 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: messageCell.identifier, for: indexPath) as! messageCell
         //cell.textLabel?.text = "\(myConversation[indexPath.row].name) * \(myConversation[indexPath.row].latestMessage.text)"
-        cell.configure(with: "\(myConversation[indexPath.row].name)", textMSG: "\(myConversation[indexPath.row].latestMessage.text)", otherUserEmail: myConversation[indexPath.row].otherUserEmail)
+        cell.configure(with: "\(myConversation[indexPath.row].name)",
+                       textMSG: "\(myConversation[indexPath.row].latestMessage.text)",
+                       otherUserEmail: myConversation[indexPath.row].otherUserEmail,
+                       dateMSG: "\(myConversation[indexPath.row].latestMessage.date)")
         return cell 
     }
     

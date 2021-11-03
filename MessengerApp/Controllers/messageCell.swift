@@ -21,10 +21,13 @@ class messageCell: UITableViewCell {
     
     private let msglabel = CustomLabel(font: .Regular, textAlignment: .left, textColor: .lightGray, numberOfLines: 2)
     
+    private let datelabel = CustomLabel(font: UIFont.systemFont(ofSize: 16), textAlignment: .right, textColor: .lightGray, numberOfLines: 1)
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(namelabel)
         contentView.addSubview(msglabel)
+        contentView.addSubview(datelabel)
         contentView.addSubview(profileImageView)
         
         contentView.clipsToBounds = true
@@ -54,6 +57,10 @@ class messageCell: UITableViewCell {
             v.topAnchor.constraint(equalTo: namelabel.bottomAnchor, constant: 5),
             v.trailingAnchor.constraint(equalTo: p.trailingAnchor, constant: -15)
         ]}
+        contentView.add(subview: datelabel) { (v, p) in [
+            v.trailingAnchor.constraint(equalTo: p.trailingAnchor, constant: 0),
+            v.topAnchor.constraint(equalTo: p.topAnchor, constant: 10)
+        ]}
         
     }
     
@@ -62,11 +69,13 @@ class messageCell: UITableViewCell {
         //profileImageView.image = nil
         namelabel.text = nil
         msglabel.text = nil
+        datelabel.text = nil
     }
     
-    public func configure(with name: String, textMSG: String, otherUserEmail: String) {
+    public func configure(with name: String, textMSG: String, otherUserEmail: String, dateMSG: String) {
         namelabel.text = name
         msglabel.text = textMSG
+        datelabel.text = String (dateMSG.prefix(25))
         let userPath = "images/" + "\(otherUserEmail)_profilepicture.png"
         StorageManager.shared.downloadURL(for: userPath) { result in
             switch result {

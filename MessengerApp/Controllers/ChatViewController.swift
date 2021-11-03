@@ -228,4 +228,10 @@ class ChatViewController: MessagesViewController {
             messages.count
         }
         
+        func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
+            let corner: MessageStyle.TailCorner =
+                  isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
+                return .bubbleTail(corner, .curved)
+        }
+        
 }
