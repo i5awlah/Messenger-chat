@@ -61,7 +61,7 @@ class RegisterViewController: UIViewController {
     }
     
     func setupUI() {
-        view.backgroundColor = .Background
+        view.backgroundColor = .mainColor
         
         // Profie image
         view.add(subview: profileImageView) { (v, p) in [

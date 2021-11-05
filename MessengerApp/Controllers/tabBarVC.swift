@@ -29,6 +29,10 @@ class tabBarVC: UITabBarController {
         }
 
         modalPresentationStyle = .fullScreen
+        
+        tabBar.barTintColor = .mainColor
+        UITabBar.appearance().tintColor = .white
+        UITabBar.appearance().unselectedItemTintColor = UIColor(rgb: 0x999999)
 
         // Do any additional setup after loading the view.
     }

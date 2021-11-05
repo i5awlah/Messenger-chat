@@ -94,7 +94,7 @@ class LoginViewController: UIViewController {
     }
     
     func setupUI() {
-        view.backgroundColor = .Background
+        view.backgroundColor = .mainColor
         
         // logo image
         view.add(subview: logoImageView) { (v, p) in [

@@ -105,7 +105,6 @@ extension NewConversationViewController: UITableViewDelegate, UITableViewDataSou
 
 extension NewConversationViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        print("kk")
         filteredTableData.removeAll(keepingCapacity: false)
         
         let searchPredicate = NSPredicate(format: "SELF CONTAINS[c] %@", searchController.searchBar.text!)

@@ -234,4 +234,13 @@ class ChatViewController: MessagesViewController {
                 return .bubbleTail(corner, .curved)
         }
         
+        func backgroundColor(
+          for message: MessageType,
+          at indexPath: IndexPath,
+          in messagesCollectionView: MessagesCollectionView
+        ) -> UIColor {
+            return isFromCurrentSender(message: message) ? UIColor(rgb: 0x728285) : UIColor(rgb: 0xcad0d1)
+        }
+        
+        
 }

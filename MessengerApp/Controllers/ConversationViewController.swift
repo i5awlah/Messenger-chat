@@ -37,7 +37,16 @@ class ConversationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGreen
+        view.backgroundColor = .white
+        
+        
+        self.navigationController?.navigationBar.barTintColor = .mainColor
+        self.navigationController?.navigationBar.titleTextAttributes =
+            [NSAttributedString.Key.foregroundColor: UIColor.systemGray5,
+             NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 20)
+            ]
+        self.navigationController?.navigationBar.tintColor = .systemGray5
+        
         title = "Chats"
         print("Conversation viewDidLoad")
         
@@ -45,6 +54,9 @@ class ConversationViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(didTapComposeButton))
+
+        
+        
         view.addSubview(tableView)
         view.add(subview: noConversationsLabel) { v, p in [
             v.centerYAnchor.constraint(equalTo: p.centerYAnchor),
@@ -80,7 +92,7 @@ class ConversationViewController: UIViewController {
         DatabaseManger.shared.getAllConversations(for: safeEmailUser) { result in
             switch result {
                 case .success(let conversations):
-                    
+                    self.myConversation.removeAll()
                     for i in 0..<conversations.count {
                         
                         let name = conversations[i].name
@@ -194,5 +206,9 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120.00
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.clear
     }
 }

@@ -9,7 +9,8 @@ import UIKit
 import Firebase
 import FacebookLogin
 import Kingfisher
-
+import MBProgressHUD
+import RSKImageCropper
 
 struct section {
     let title: String
@@ -35,7 +36,7 @@ class ProfileViewController: UIViewController {
         return iv
     }()
     
-    private lazy var fullNameLabel = CustomLabel(text: "Welcome Back!", font: UIFont.boldSystemFont(ofSize: 20), textAlignment: .center, textColor: .black, numberOfLines: 1)
+    private lazy var fullNameLabel = CustomLabel(text: "Welcome Back!", font: UIFont.boldSystemFont(ofSize: 20), textAlignment: .center, textColor: .white, numberOfLines: 1)
     private lazy var emailLabel = CustomLabel(text: "", font: .Regular, textAlignment: .center, textColor: .lightGray, numberOfLines: 1)
     
     private var tableView: UITableView = {
@@ -54,13 +55,13 @@ class ProfileViewController: UIViewController {
     }
     
     func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .mainColor
         title = "Profile"
         navigationController?.navigationBar.isHidden = true
         navigationController?.navigationBar.prefersLargeTitles = true
         
         let mainView = UIView()
-        mainView.backgroundColor = .white
+        mainView.backgroundColor = .mainColor
         mainView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(mainView)
@@ -100,6 +101,12 @@ class ProfileViewController: UIViewController {
     
     func configureModals() {
         self.models.append(section(title: "Setting", options: [
+            settingsOption(title: "Change Password", icon: UIImage(systemName: "lock"), iconBackgroundColor: UIColor(rgb: 0xAD938D)) {
+                self.changePassword()
+            },
+            settingsOption(title: "Change Profile Image", icon: UIImage(systemName: "person"), iconBackgroundColor: UIColor(rgb: 0xA6C8A0)) {
+                self.changeProfileImage()
+            },
             settingsOption(title: "Change Mode", icon: UIImage(systemName: "paintpalette.fill"), iconBackgroundColor: .systemGray) {
                 self.changeMode()
             }
@@ -129,6 +136,37 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    @objc func changeProfileImage() {
+        presentPhotoActionSheet()
+    }
+    
+    @objc func changePassword() {
+
+        let alert = UIAlertController(title: "Enter the new password", message: "", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: nil)
+        let passwordTextField = alert.textFields![0]
+        passwordTextField.placeholder = "New Password"
+        passwordTextField.isSecureTextEntry = true
+        let saveAction = UIAlertAction(title: "Save", style: .default) {
+            _ in
+            let newPassword = passwordTextField.text! as String
+            
+            Auth.auth().currentUser?.updatePassword(to: newPassword) { (error) in
+                if let error = error {
+                    self.showAlert(title: "Error", message: error.localizedDescription)
+                }
+                else {
+                    self.showAlert(title: "", message: "Password changed successfully")
+                }
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
     func changeMode() {
         if self.view.overrideUserInterfaceStyle == .dark {
             self.view.overrideUserInterfaceStyle = .light
@@ -147,7 +185,21 @@ class ProfileViewController: UIViewController {
             guard let strongSelf = self else {
                 return
             }
-            print("logout ...")
+            
+//            let email = UserDefaults.standard.value(forKey: "email") as? String
+//            let safeEmail = DatabaseManger.shared.safeEmail(emailAddress: email!)
+//            let userImage = self!.profileImageView.image!.pngData()
+//            let fileName = "\(safeEmail)_profilepicture.png"
+//            StorageManager.shared.uploadProfilePicture(with: userImage!, fileName: fileName) { result in
+//                switch result {
+//                    case .success(let url):
+//                        print("!!!!!success: \(url)")
+//                    case .failure(let error):
+//                        print(error.localizedDescription)
+//                        print("rrr")
+//                    }
+//            }
+            
             do {
                 if DatabaseManger.shared.isLoggedIn() {
                     // Show the ViewController with the logged in user
@@ -170,6 +222,13 @@ class ProfileViewController: UIViewController {
         present(actionSheet, animated: true)
 
     }
+    
+    func showAlert(title: String, message: String) {
+            let alertVC = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+            let action = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
+            alertVC.addAction(action)
+            self.present(alertVC, animated: true, completion: nil)
+        }
 
 }
 
@@ -201,4 +260,98 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         model.handler()
     }
     
+}
+
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    // get results of user taking picture or selecting from camera roll
+    func presentPhotoActionSheet(){
+        let actionSheet = UIAlertController(title: "Profile Picture", message: "How would you like to select a picture?", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { [weak self] _ in
+            self?.presentCamera()
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { [weak self] _ in
+            self?.presentPhotoPicker()
+        }))
+        
+        
+        present(actionSheet, animated: true)
+    }
+    func presentCamera() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        vc.delegate = self
+        present(vc, animated: true)
+    }
+    func presentPhotoPicker() {
+        self.showHUD(progressLabel: "Loading...")
+        let vc = UIImagePickerController()
+        vc.sourceType = .photoLibrary
+        vc.delegate = self
+        present(vc, animated: true)
+    }
+    func deletePhoto() {
+        profileImageView.image = UIImage(named: "profileImage")
+    }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            return
+        }
+        
+        let imageCropVC : RSKImageCropViewController!
+        imageCropVC = RSKImageCropViewController(image: selectedImage, cropMode: RSKImageCropMode.circle)
+        imageCropVC.moveAndScaleLabel.text = "Move And Scale"
+        imageCropVC.cancelButton.setTitle("Cancel", for: .normal)
+        imageCropVC.chooseButton.setTitle("Choose", for: .normal)
+        imageCropVC.delegate = self
+        picker.pushViewController(imageCropVC, animated: true)
+        
+        //self.profileImageView.image = selectedImage
+        dismissHUD(isAnimated: true)
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+        dismissHUD(isAnimated: true)
+    }
+    
+}
+
+
+extension ProfileViewController: RSKImageCropViewControllerDelegate {
+    func imageCropViewControllerDidCancelCrop(_ controller: RSKImageCropViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imageCropViewController(_ controller: RSKImageCropViewController, didCropImage croppedImage: UIImage, usingCropRect cropRect: CGRect, rotationAngle: CGFloat) {
+        
+        if controller.cropMode == .circle {
+            UIGraphicsBeginImageContext(croppedImage.size)
+            let layerView = UIImageView(image: croppedImage)
+            layerView.frame.size = croppedImage.size
+            layerView.layer.cornerRadius = layerView.frame.size.width * 0.5
+            layerView.clipsToBounds = true
+            let context = UIGraphicsGetCurrentContext()!
+            layerView.layer.render(in: context)
+            let capturedImage = UIGraphicsGetImageFromCurrentImageContext()!
+            UIGraphicsEndImageContext()
+            let pngData = capturedImage.pngData()!
+            self.profileImageView.image = UIImage(data: pngData)!
+        }
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+extension ProfileViewController {
+    func showHUD(progressLabel:String){
+        DispatchQueue.main.async{
+            let progressHUD = MBProgressHUD.showAdded(to: (self.view)!, animated: true)
+            progressHUD.label.text = progressLabel
+        }
+    }
+
+    func dismissHUD(isAnimated:Bool) {
+        DispatchQueue.main.async{
+            MBProgressHUD.hide(for: (self.view)!, animated: isAnimated)
+        }
+    }
 }
